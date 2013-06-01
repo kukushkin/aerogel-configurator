@@ -1,4 +1,4 @@
-require 'configurator'
+require 'aerogel/configurator'
 
 config = Configurator.new
 

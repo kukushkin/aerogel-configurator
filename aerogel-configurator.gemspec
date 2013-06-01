@@ -1,16 +1,16 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'configurator/version'
+require 'aerogel/configurator/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "rb-configurator"
+  spec.name          = "aerogel-configurator"
   spec.version       = Configurator::VERSION
   spec.authors       = ["Alex Kukushkin"]
   spec.email         = ["alex@kukushk.in"]
   spec.summary       = %q{Simple configuration files for Ruby applications}
   spec.description   = %q{Store your application configuration in separate files using simple DSL or YAML. Access your configuration settings in a simple way}
-  spec.homepage      = "https://github.com/kukushkin/rb-configurator"
+  spec.homepage      = "https://github.com/kukushkin/aerogel-configurator"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
