@@ -6,7 +6,7 @@ Configuration files for Ruby applications made easy.
 
 Add this line to your application's Gemfile:
 
-    gem 'rb-configurator'
+    gem 'aerogel-configurator'
 
 And then execute:
 
@@ -14,17 +14,21 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install rb-configurator
+    $ gem install aerogel-configurator
 
 ## Usage
 
 Configuration parameters as chain:
+
+    require 'aerogel/configurator'
 
     config = Configurator.load "my.conf"
 
     config.group.a # => 1
 
 Configuration is a HASH:
+
+    require 'aerogel/configurator'
 
     config = Configurator.load "my.conf"
 
@@ -46,7 +50,7 @@ Store your configuration in the separate file(s) using simple DSL:
 
 Load configuration file(s) in your application:
 
-    require 'configurator'
+    require 'aerogel/configurator'
     config = Configurator.load "my.conf"
 
     # Access settings:
@@ -54,7 +58,12 @@ Load configuration file(s) in your application:
     puts config.a_group.a_nested_group.inner # => 42
 
 
-TODO: Write usage instructions here
+
+TODO: more usage examples in the works
+
+## Feedback
+
+Any feedback is really appreciated.
 
 ## Contributing
 
