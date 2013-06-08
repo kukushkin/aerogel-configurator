@@ -15,5 +15,11 @@ describe "Configurator::DSL" do
     config.bar.should eql "foobar"
   end
 
+  it "should allow reuse of parameters" do
+    config = Configurator.new :bar => '123'
+    config.load test_filename('conf/e.conf')
+    config.foo.should eql "hello"
+    config.bar.should eql "hello"
+  end
 
 end # describe Configurator::DSL

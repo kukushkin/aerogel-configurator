@@ -7,7 +7,7 @@ private
     end
 
     def method_missing(method, *args)
-      # puts "Parameter.method_missing: #{method}"
+      # puts "Parameter.method_missing: '#{method}' in #{@data}"
       if method.to_s =~ /=$/
         @data[method.to_s.match(/^(.*)=$/)[1].to_sym] = args.first
       elsif @data[method].is_a?(Hash)
