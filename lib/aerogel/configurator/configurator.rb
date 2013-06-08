@@ -4,11 +4,13 @@ class Configurator
   attr_accessor :params
   # alias_method :to_hash, :params
 
-  # Creates a Configurator object and set default parameters.
+  # Creates a Configurator object and loads parameters from optionally provided +source+.
+  # +source+ is either a String which is treated as a name of config file
+  # or a Hash
   #
-  def initialize( opts = {} )
-    raise ArgumentError.new("Invalid parameters passed to Configurator.new") unless opts.is_a? Hash
-    @params = opts.dup
+  def initialize( source = nil )
+    @params = {}
+    load source unless source.nil?
   end
 
 
@@ -17,12 +19,20 @@ class Configurator
     Parameter.new( @params ).send method, *args
   end
 
-  # Loads contents of a configuration file into an existing Configurator object.
+  # Loads parameters from +source+.
+  # +source+ is either a String which is treated as a name of config file
+  # or a Hash
   #
-  def load( filename )
-    filename_contents = File.read filename
-    cfg = DSL.new( filename_contents, @params )
-    deep_merge( @params, cfg.params )
+  def load( source )
+    if source.is_a? String
+      filename_contents = File.read source
+      DSL.new( filename_contents, @params )
+    elsif source.is_a? Hash
+      deep_merge( @params, source)
+    else
+      raise ArgumentError.new("Invalid source passed to #load method")
+    end
+    true
   end
 
   # Clears parameters
@@ -31,13 +41,12 @@ class Configurator
     @params = {}
   end
 
-  # Creates a Configurator object and loads parameters from given file.
+  # Creates a Configurator object and loads parameters from given file or a Hash.
   #
   # Returns a created object with parameters loaded into it.
   #
-  def self.load( filename )
-    config = self.new {}
-    config.load filename
+  def self.load( source )
+    config = self.new source
     return config
   end
 

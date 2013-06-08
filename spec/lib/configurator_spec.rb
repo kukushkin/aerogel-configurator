@@ -28,10 +28,24 @@ describe Configurator do
     it 'should accept Hash as a set of default parameters' do
       config = nil
       expect { config = Configurator.new @default_params }.to_not raise_error
+      config.should be_instance_of Configurator
+      config.params.should eql @default_params
+    end
+    it 'should accept String as a name of config file' do
+      config = nil
+      expect { config = Configurator.new test_filename( 'conf/a.conf' ) }.to_not raise_error
+      config.should be_instance_of Configurator
+      config.params.should eql( {:foo=>"hello", :bar=>42.0} )
     end
   end
 
   describe ".load" do
+    it "should load parameters from a Hash" do
+      config = nil
+      expect { config = Configurator.load @default_params }.to_not raise_error
+      config.should be_instance_of Configurator
+      config.params.should eql @default_params
+    end
     it "should load parameters from a configuration file" do
       config = Configurator.load( test_filename( 'conf/a.conf' ) )
       config.should be_instance_of Configurator
@@ -77,7 +91,13 @@ describe Configurator do
 
   describe "instance" do
     it { should respond_to :load }
-    it "should load parameters" do
+    it "should load parameters from a Hash" do
+      config = Configurator.new
+      config.params.should eql({})
+      expect { config.load @default_params }.to_not raise_error
+      config.params.should eql( @default_params )
+    end
+    it "should load parameters from a config file" do
       config = Configurator.new
       config.params.should eql({})
       config.load test_filename( 'conf/a.conf' )
