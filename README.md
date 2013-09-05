@@ -227,7 +227,39 @@ config.foo # => 123
 config.bar # => 'abc'
 ```
 
-### 9. More examples?
+
+### 9. Iterating over config
+You can always iterate over undelying Hash like this:
+```ruby
+config.to_hash.each {|name, value| ... }
+```
+But in case you have used deferred parameters, these values won't be automatically evaluated.
+A built-in iterator solves this problem:
+```ruby
+# my.conf
+root_path "/default/path"
+path_to_file lambda{ root_path+"/dir/filename.txt" }
+```
+```ruby
+# my_app.rb
+require 'aerogel/configurator'
+
+config = Configurator.new "my.conf"
+
+config.each do |name, value|
+  puts "#{name}: #{value}"
+end
+# =>
+# root_path: /default/path
+# path_to_file: /default/path/dir/filename.txt
+```
+
+Of course, any config parameter containing nested group of parameters responds to ```#each```iterator too:
+```ruby
+config.group1.subgroup2.each {|name, value| ... }
+```
+
+### 10. More examples?
 See ```examples/``` folder.
 
 ## Feedback
