@@ -11,6 +11,12 @@ describe Configurator do
         :b => 2
       }
     }
+    @flat_params = {
+      :foo1 => "abc1",
+      :foo2 => "abc2",
+      :foo3 => "abc3",
+      :foo4 => "abc4"
+    }
   end
 
   it "should respond to 'load' and return a Configurator instance" do
@@ -131,6 +137,27 @@ describe Configurator do
       config.to_hash.should eql @default_params
       config.group.to_hash.should be_instance_of Hash
       config.group.to_hash.should eql @default_params[:group]
+    end
+
+    it "should respond to #to_hash on each level" do
+      config = Configurator.new @default_params
+      expect { config.to_hash }.to_not raise_error
+      config.to_hash.should be_instance_of Hash
+      config.to_hash.should eql @default_params
+      config.group.to_hash.should be_instance_of Hash
+      config.group.to_hash.should eql @default_params[:group]
+    end
+
+    it "should respond to #each" do
+      config = Configurator.new @default_params
+      config.should respond_to(:each)
+    end
+
+    it "#each should iterate over parameters" do
+      # TODO: figure out a way to properly test #each iterator for the nested parameters case
+      config = Configurator.new @flat_params
+      params_each_list = @flat_params.to_a
+      expect {|b| config.each(&b)}.to yield_successive_args( *params_each_list )
     end
 
   end

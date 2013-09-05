@@ -34,6 +34,15 @@ private
       @data.inspect
     end
 
+    # Iterates over parameter group.
+    #
+    def each( &block )
+      @data.keys.each do |method|
+        value = send method
+        yield method, value
+      end
+    end
+
     # Undefined is a parameter that was not set yet.
     # It allows accessing its sub-parameters and defines the entire
     # chain once an assignement method on a sub-parameter is called.

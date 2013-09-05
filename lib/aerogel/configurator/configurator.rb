@@ -14,9 +14,13 @@ class Configurator
   end
 
 
-  def method_missing(method, *args)
+  def method_missing(method, *args, &block)
     # puts "Configurator.method_missing: #{method}"
-    Parameter.new( @params ).send method, *args
+    Parameter.new( @params ).send method, *args, &block
+  end
+
+  def respond_to?(method, include_private = false)
+    super || Parameter.new( @params ).respond_to?(method, include_private)
   end
 
   # Loads parameters from +source+.
