@@ -20,7 +20,7 @@ class Configurator
   end
 
   def respond_to?(method, include_private = false)
-    super || Parameter.new( @params ).respond_to?(method, include_private)
+    super || (Parameter.new( @params ).respond_to? method, include_private)
   end
 
   # Loads parameters from +source+.

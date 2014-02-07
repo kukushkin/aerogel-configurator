@@ -34,9 +34,15 @@ describe "Configurator::DSL" do
       config.foo!.should eql("hello")
     end
 
-    it "should raise ArgumentError for non-existing parameter" do
+    it "should raise ArgumentError for undefined parameter" do
       config = Configurator.load test_filename('conf/f.conf')
       expect { config.nofoo! }.to raise_error(ArgumentError)
+    end
+
+    it "should work at the end of a chain of undefined parameters" do
+      config = Configurator.load test_filename('conf/f.conf')
+      expect { config.nofoo.nofoo }.not_to raise_error
+      expect { config.nofoo.nofoo! }.to raise_error(ArgumentError)
     end
   end
 
@@ -58,6 +64,13 @@ describe "Configurator::DSL" do
       config = Configurator.load test_filename('conf/f.conf')
       config.nofoo?.should be false
     end
+
+    it "should work at the end of a chain of undefined parameters" do
+      config = Configurator.load test_filename('conf/f.conf')
+      config.nofoo.nofoo.should be_nil
+      config.nofoo.nofoo?.should be false
+    end
+
   end
 
 end # describe Configurator::DSL
