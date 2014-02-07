@@ -18,3 +18,5 @@ tmp
 *.sublime-project
 *.sublime-workspace
 .rspec
+*.ruby-version
+*.ruby-gemset

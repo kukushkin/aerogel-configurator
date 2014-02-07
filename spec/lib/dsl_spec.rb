@@ -22,4 +22,42 @@ describe "Configurator::DSL" do
     config.bar.should eql "hello"
   end
 
+  describe "<param>! method" do
+    it "should be provided for existing and non-existing parameters" do
+      config = Configurator.load test_filename('conf/f.conf')
+      config.should respond_to(:foo!)
+      config.should respond_to(:nofoo!)
+    end
+
+    it "should return parameter value for existing parameter" do
+      config = Configurator.load test_filename('conf/f.conf')
+      config.foo!.should eql("hello")
+    end
+
+    it "should raise ArgumentError for non-existing parameter" do
+      config = Configurator.load test_filename('conf/f.conf')
+      expect { config.nofoo! }.to raise_error(ArgumentError)
+    end
+  end
+
+  describe "<param>? method" do
+    it "should be provided for existing and non-existing parameters" do
+      config = Configurator.load test_filename('conf/f.conf')
+      config.should respond_to(:foo?)
+      config.should respond_to(:nofoo?)
+    end
+
+    it "should return value coerced to Boolean for existing parameter" do
+      config = Configurator.load test_filename('conf/f.conf')
+      config.foo?.should be true
+      config.bar?.should be true
+      config.foobar?.should be false
+    end
+
+    it "should return false for non-existing parameter" do
+      config = Configurator.load test_filename('conf/f.conf')
+      config.nofoo?.should be false
+    end
+  end
+
 end # describe Configurator::DSL
