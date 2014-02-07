@@ -63,6 +63,11 @@ config.foobar # => Configurator::Parameter::Undefined
 # however:
 config.foobar.nil? # => true
 
+# there are helper methods for handling undefined parameters:
+config.foo! # => 'bar'
+config.foobar! # => ArgumentError 'Undefined parameter: .foobar'
+config.foo? # => true, defined and not false or nil
+config.foobar? # => false, undefined or is false or nil
 ```
 
 ### 2. Setting configuration parameters in your ruby code
